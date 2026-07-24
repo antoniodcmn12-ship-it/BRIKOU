@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRIKOU</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f4f5f7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    th {
+      color: #6c757d;
+      font-weight: 600;
+      padding: 15px 10px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    td {
+      padding: 12px 8px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    tr:not(:last-child) {
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    /* Entradas de texto e número */
+    input[type="text"], input[type="number"] {
+      border: 1px solid transparent;
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 15px;
+      width: 100%;
+      max-width: 100px;
+      text-align: center;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus {
+      border: 1px solid #0d1b2a;
+      background-color: #fff;
+    }
+
+    input[type="text"] {
+      max-width: 140px;
+      text-align: left;
+    }
+
+    /* Prefixos R$ */
+    .currency-input {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #2b9348;
+      font-weight: bold;
+    }
+
+    .currency-input input {
+      color: #2b9348;
+      font-weight: bold;
+    }
+
+    /* Botão de Situação */
+    .status-btn {
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .status-estoque {
+      background-color: #fef3d6;
+      color: #854d0e;
+    }
+
+    .status-vendido {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+
+    /* Lucro */
+    .lucro {
+      font-weight: bold;
+      color: #2b9348;
+      font-size: 15px;
+    }
+
+    /* Botão Lixeira */
+    .btn-trash {
+      background-color: #fce7f3;
+      border: none;
+      border-radius: 12px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: background 0.2s;
+    }
+
+    .btn-trash:hover {
+      background-color: #fbcfe8;
+    }
+
+    /* Botão + Novo Produto */
+    .btn-add {
+      background-color: #0d1b2a;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      align-self: flex-start;
+      transition: background 0.2s;
+    }
+
+    .btn-add:hover {
+      background-color: #1b263b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Situação</th>
+          <th>Entrada</th>
+          <th>Gastos</th>
+          <th>Saída</th>
+          <th>Lucro</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        </tbody>
+    </table>
+  </div>
+
+  <button class="btn-add" onclick="adicionarSlot()">+ Novo Produto</button>
+
+  <script>
+    let produtos = [];
+
+    // Carregar dados ao iniciar
+    window.onload = () => {
+      const dadosSalvos = localStorage.getItem('app_produtos');
+      if (dadosSalvos) {
+        produtos = JSON.parse(dadosSalvos);
+      } else {
+        // Slot padrão inicial se estiver vazio
+        produtos = [{
+          nome: '',
+          situacao: 'Estoque',
+          entrada: 0,
+          gastos: 0,
+          saida: 0
+        }];
+      }
+      renderizarTabela();
+    };
+
+    // Salvar tudo automaticamente
+    function salvar() {
+      localStorage.setItem('app_produtos', JSON.stringify(produtos));
+    }
+
+    // Adicionar um novo slot
+    function adicionarSlot() {
+      produtos.push({
+        nome: '',
+        situacao: 'Estoque',
+        entrada: 0,
+        gastos: 0,
+        saida: 0
+      });
+      salvar();
+      renderizarTabela();
+    }
+
+    // Excluir slot
+    function deletarSlot(index) {
+      produtos.splice(index, 1);
+      salvar();
+      renderizarTabela();
+    }
+
+    // Alternar situação entre Estoque e Vendido
+    function alternarSituacao(index) {
+      produtos[index].situacao = produtos[index].situacao === 'Estoque' ? 'Vendido' : 'Estoque';
+      salvar();
+      renderizarTabela();
+    }
+
+    // Atualizar os valores digitados
+    function atualizarCampo(index, campo, valor) {
+      produtos[index][campo] = campo === 'nome' ? valor : (parseFloat(valor) || 0);
+      salvar();
+      
+      // Atualizar o cálculo do lucro diretamente na tela sem recriar toda a tabela
+      const row = document.querySelectorAll('#table-body tr')[index];
+      if (row) {
+        const lucroTd = row.querySelector('.lucro');
+        const lucroCalculado = calcularLucro(produtos[index]);
+        lucroTd.textContent = formatarMoeda(lucroCalculado);
+      }
+    }
+
+    // Calcular Lucro
+    function calcularLucro(item) {
+      // Lucro = (Saída) - (Entrada + Gastos)
+      return item.saida - (item.entrada + item.gastos);
+    }
+
+    // Formatar valores para moeda brasileira
+    function formatarMoeda(valor) {
+      return `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    // Desenhar a tabela na tela
+    function renderizarTabela() {
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = '';
+
+      produtos.forEach((prod, index) => {
+        const tr = document.createElement('tr');
+
+        const lucro = calcularLucro(prod);
+        const isEstoque = prod.situacao === 'Estoque';
+
+        tr.innerHTML = `
+          <td>
+            <input type="text" placeholder="Nome" value="${prod.nome}" oninput="atualizarCampo(${index}, 'nome', this.value)">
+          </td>
+          <td>
+            <button class="status-btn ${isEstoque ? 'status-estoque' : 'status-vendido'}" onclick="alternarSituacao(${index})">
+              ${isEstoque ? '📦 Estoque' : '✅ Vendido'}
+            </button>
+          </td>
+          <td>
+            <div class="currency-input">
+              R$&nbsp;<input type="number" step="0.01" value="${prod.entrada || ''}" placeholder="0,00" oninput="atualizarCampo(${index}, 'entrada', this.value)">
+            </div>
+          </td>
+          <td>
+            <div class="currency-input">
+              R$&nbsp;<input type="number" step="0.01" value="${prod.gastos || ''}" placeholder="0,00" oninput="atualizarCampo(${index}, 'gastos', this.value)">
+            </div>
+          </td>
+          <td>
+            <div class="currency-input">
+              R$&nbsp;<input type="number" step="0.01" value="${prod.saida || ''}" placeholder="0,00" oninput="atualizarCampo(${index}, 'saida', this.value)">
+            </div>
+          </td>
+          <td>
+            <span class="lucro">${formatarMoeda(lucro)}</span>
+          </td>
+          <td>
+            <button class="btn-trash" onclick="deletarSlot(${index})" title="Apagar">🗑️</button>
+          </td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+  </script>
+</body>
+</html>
