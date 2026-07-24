@@ -1,0 +1,153 @@
+* {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: #f4f5f7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 900px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+th {
+  color: #6c757d;
+  font-weight: 600;
+  padding: 15px 10px;
+  text-align: center;
+  font-size: 15px;
+}
+
+td {
+  padding: 12px 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+tr:not(:last-child) {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Entradas de texto e número */
+input[type="text"], input[type="number"] {
+  border: 1px solid transparent;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 15px;
+  width: 100%;
+  max-width: 100px;
+  text-align: center;
+  outline: none;
+  transition: border 0.2s;
+}
+
+input[type="text"]:focus, input[type="number"]:focus {
+  border: 1px solid #0d1b2a;
+  background-color: #fff;
+}
+
+input[type="text"] {
+  max-width: 140px;
+  text-align: left;
+}
+
+/* Prefixos R$ */
+.currency-input {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #2b9348;
+  font-weight: bold;
+}
+
+.currency-input input {
+  color: #2b9348;
+  font-weight: bold;
+}
+
+/* Botão de Situação */
+.status-btn {
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
+}
+
+.status-estoque {
+  background-color: #fef3d6;
+  color: #854d0e;
+}
+
+.status-vendido {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+/* Lucro */
+.lucro {
+  font-weight: bold;
+  color: #2b9348;
+  font-size: 15px;
+}
+
+/* Botão Lixeira */
+.btn-trash {
+  background-color: #fce7f3;
+  border: none;
+  border-radius: 12px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+
+.btn-trash:hover {
+  background-color: #fbcfe8;
+}
+
+/* Botão + Novo Produto */
+.btn-add {
+  background-color: #0d1b2a;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+  align-self: flex-start;
+  transition: background 0.2s;
+}
+
+.btn-add:hover {
+  background-color: #1b263b;
+}
