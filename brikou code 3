@@ -1,0 +1,79 @@
+let produtos = [];
+
+// Carregar dados ao iniciar
+window.onload = () => {
+  const dadosSalvos = localStorage.getItem('app_produtos');
+  if (dadosSalvos) {
+    produtos = JSON.parse(dadosSalvos);
+  } else {
+    // Slot padrão inicial se estiver vazio
+    produtos = [{
+      nome: '',
+      situacao: 'Estoque',
+      entrada: 0,
+      gastos: 0,
+      saida: 0
+    }];
+  }
+  renderizarTabela();
+};
+
+// Salvar tudo automaticamente
+function salvar() {
+  localStorage.setItem('app_produtos', JSON.stringify(produtos));
+}
+
+// Adicionar um novo slot
+function adicionarSlot() {
+  produtos.push({
+    nome: '',
+    situacao: 'Estoque',
+    entrada: 0,
+    gastos: 0,
+    saida: 0
+  });
+  salvar();
+  renderizarTabela();
+}
+
+// Excluir slot
+function deletarSlot(index) {
+  produtos.splice(index, 1);
+  salvar();
+  renderizarTabela();
+}
+
+// Alternar situação entre Estoque e Vendido
+function alternarSituacao(index) {
+  produtos[index].situacao = produtos[index].situacao === 'Estoque' ? 'Vendido' : 'Estoque';
+  salvar();
+  renderizarTabela();
+}
+
+// Atualizar os valores digitados
+function atualizarCampo(index, campo, valor) {
+  produtos[index][campo] = campo === 'nome' ? valor : (parseFloat(valor) || 0);
+  salvar();
+  
+  // Atualizar o cálculo do lucro diretamente na tela sem recriar toda a tabela
+  const row = document.querySelectorAll('#table-body tr')[index];
+  if (row) {
+    const lucroTd = row.querySelector('.lucro');
+    const lucroCalculado = calcularLucro(produtos[index]);
+    lucroTd.textContent = formatarMoeda(lucroCalculado);
+  }
+}
+
+// Calcular Lucro
+function calcularLucro(item) {
+  // Lucro = (Saída) - (Entrada + Gastos)
+  return item.saida - (item.entrada + item.gastos);
+}
+
+// Formatar valores para moeda brasileira
+function formatarMoeda(valor) {
+  return `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+// Desenhar a
+
