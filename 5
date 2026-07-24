@@ -1,0 +1,47 @@
+// Service Worker para funcionar offline
+const CACHE_NAME = 'brikou-v1';
+const urlsToCache = [
+  './',
+  './index.html',
+  './styles/style.css',
+  './scripts/app.js',
+  './manifest.json'
+];
+
+// Instalar e cachear arquivos
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        return cache.addAll(urlsToCache);
+      })
+  );
+});
+
+// Usar cache quando offline
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        return response || fetch(event.request);
+      })
+      .catch(() => {
+        return caches.match('./index.html');
+      })
+  );
+});
+
+// Limpar cache antigo
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});
