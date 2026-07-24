@@ -1,0 +1,61 @@
+# BRIKOU - Gerenciador de Produtos 📱
+
+Um app simples e prático para gerenciar seus produtos e lucros no celular ou PC.
+
+## 🎯 Funcionalidades
+
+- ✅ Adicionar novos produtos
+- ✅ Definir se está em Estoque ou Vendido
+- ✅ Registrar entrada (custo do produto)
+- ✅ Adicionar gastos extras
+- ✅ Definir valor de saída (preço de venda)
+- ✅ Calcular lucro automaticamente
+- ✅ Deletar produtos
+- ✅ Salvar dados automaticamente
+- ✅ Funciona OFFLINE (sem internet!)
+- ✅ App nativo no celular
+
+## 📱 Como Instalar no Android
+
+### Passo a passo:
+
+1. **Abra o Chrome** no seu celular Android
+2. **Digite ou cole** o link do site (você recebeu)
+3. Toque nos **3 pontinhos** (canto superior direito) ⋮
+4. Toque em **"Instalar app"** ou **"Adicionar à tela inicial"**
+5. **Pronto!** 🎉 O app fica na sua tela inicial como um app normal
+
+## 💾 Dados
+
+Os dados são salvos automaticamente no seu celular. Você pode:
+- ❌ Fechar o app → Os dados continuam lá
+- ❌ Desinstalar → Os dados continuam salvos
+- ✅ Usar em outro celular → Precisa inserir tudo novamente
+
+## 🚀 Como Usar
+
+1. Clique em **"+ Novo Produto"** para adicionar um produto
+2. Preencha os dados:
+   - **Produto**: Nome do item
+   - **Situação**: Clique para alternar entre 📦 Estoque / ✅ Vendido
+   - **Entrada**: Quanto você gastou para comprar
+   - **Gastos**: Custos adicionais (envio, embalagem, etc)
+   - **Saída**: Preço que você vai vender
+3. O **Lucro** é calculado automaticamente = Saída - (Entrada + Gastos)
+4. Clique na lixeira 🗑️ para deletar um produto
+
+## ⚙️ Tecnologia
+
+- HTML5
+- CSS3
+- JavaScript Puro
+- Service Worker (offline)
+- Progressive Web App (PWA)
+
+## 📋 Link do Site
+
+🔗 Seu app está disponível em: **https://antoniodcmn12-ship-it.github.io/brikou**
+
+---
+
+Desenvolvido com ❤️ para facilitar suas vendas!
